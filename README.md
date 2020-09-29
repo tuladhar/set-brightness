@@ -15,4 +15,8 @@ EXAMPLES:
         set-brightness 50 - Set brightness level to 50%
 ```
 
-![](usage.png)
+## INSTALLATION
+![](images/install.png)
+
+## EXAMPLE
+![](images/example.png)
