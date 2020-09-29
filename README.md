@@ -1,2 +1,3 @@
-# set-brightness
-set-brightness - Adjust the display brightness from command-line for Linux
+## Adjust the display brightness from command-line for Linux
+
+![](usage.png)
