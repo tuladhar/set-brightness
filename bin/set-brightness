@@ -59,8 +59,12 @@ is_brightness_allowed() {
 }
 
 set_brightness() {
+   if command -v sudo &> /dev/null; then
+      sudo="sudo"
+   fi
+
 	brightness=$(echo "$(get_max_brightness) * $1/100" | bc)
-	echo "$brightness" | sudo tee $SET_BRIGHTNESS_PATH > /dev/null
+	echo "$brightness" | $sudo tee $SET_BRIGHTNESS_PATH > /dev/null
 	echo "🔆 Brightness Level: ${1}%" 
 }
 
