@@ -1,10 +1,10 @@
 #!/bin/bash
 #
 # Copyright (c) 2020 Puru Tuladhar <ptuladhar3@gmail.com>
-# See LICENSE file.
+# See LICENSE & AUTHORS file.
 #
 PROGRAM_NAME=set-brightness
-VERSION=1.0
+VERSION=1.1
 
 CONTROLLER_PATH="/sys/class/backlight/*"
 SET_BRIGHTNESS_PATH=""
