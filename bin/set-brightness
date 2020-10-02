@@ -4,7 +4,7 @@
 # See LICENSE & AUTHORS file.
 #
 PROGRAM_NAME=set-brightness
-VERSION=1.1
+VERSION=1.2
 
 CONTROLLER_PATH="/sys/class/backlight/*"
 SET_BRIGHTNESS_PATH=""
@@ -74,7 +74,7 @@ set_brightness() {
          sudo="sudo"
    fi
 
-	brightness=$(echo "$(get_max_brightness) * $1/100" | bc)
+   brightness=$(echo "$(get_max_brightness) * $1/100" | bc)
    echo "$brightness" | $sudo tee $SET_BRIGHTNESS_PATH > /dev/null
    echo "🔆 Brightness Level: ${1}%" 
 }
