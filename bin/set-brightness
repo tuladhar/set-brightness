@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Copyright (c) 2020 Puru Tuladhar <ptuladhar3@gmail.com>
-# See LICENSE & AUTHORS file.
+# See LICENSE file.
 #
 PROGRAM_NAME=set-brightness
 VERSION=1.2
