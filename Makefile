@@ -7,9 +7,9 @@ PROGRAM_NAME=set-brightness
 INSTALL_PATH=/usr/local/bin
 
 install:
-	@sudo install $(PROGRAM_PATH)/$(PROGRAM_NAME) $(INSTALL_PATH)/$(PROGRAM_NAME)  
+	@install $(PROGRAM_PATH)/$(PROGRAM_NAME) $(INSTALL_PATH)/$(PROGRAM_NAME)  
 	@echo "$(PROGRAM_NAME): installed"
 
 uninstall:
-	@sudo rm -f $(INSTALL_PATH)/$(PROGRAM_NAME)
+	@rm -f $(INSTALL_PATH)/$(PROGRAM_NAME)
 	@echo "$(PROGRAM_NAME): uninstalled"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright (c) 2020 Puru Tuladhar <ptuladhar3@gmail.com>
 # See LICENSE & AUTHORS file.
@@ -10,8 +10,8 @@ CONTROLLER_PATH="/sys/class/backlight/*"
 SET_BRIGHTNESS_PATH=""
 MAX_BRIGHTNESS_PATH=""
 
-function parse_cli() {
-	if [[ -z $1 || "$1" == "-h" || "$1" == "--help" ]]; then
+parse_cli() {
+     if [ -z "$1" ] || [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
 		echo "$PROGRAM_NAME - Adjust the display brightness from command-line for Linux (v$VERSION)"
 		echo
 		echo "USAGE: $PROGRAM_NAME [LEVEL]"
@@ -25,15 +25,15 @@ function parse_cli() {
 		echo "	set-brightness 50 - Set brightness level to 50%"
 		exit 1
 	fi
-	if [[ "$1" == "--version" ]]; then
+	if [ "$1" = "--version" ]; then
 		echo "$PROGRAM_NAME version $VERSION"
 		exit 1
 	fi
 } 
 
-function get_controller() {
+get_controller() {
     for dir in $CONTROLLER_PATH; do
-        if [[ -e "${dir}/brightness" && -e "${dir}/max_brightness" ]]; then
+        if [ -e "${dir}/brightness" ] && [ -e "${dir}/max_brightness" ]; then
             SET_BRIGHTNESS_PATH="${dir}/brightness"
             MAX_BRIGHTNESS_PATH="${dir}/max_brightness"
             break
@@ -41,8 +41,8 @@ function get_controller() {
     done
 }
 
-function check_hardware_support() {
-	if [[ -z "$SET_BRIGHTNESS_PATH" ]]; then
+check_hardware_support() {
+	if [ -z "$SET_BRIGHTNESS_PATH" ]; then
 		echo "$PROGRAM_NAME: error: hardware not supported."
 		echo
 		echo "Please raise an issue to <> and share output of following command:"
@@ -51,29 +51,36 @@ function check_hardware_support() {
 	fi
 }
 
-function get_max_brightness() {
-	cat $MAX_BRIGHTNESS_PATH
+get_max_brightness() {
+	cat "$MAX_BRIGHTNESS_PATH"
 }
 
-function is_brightness_allowed() {
-	if ! [[ $1 =~ ^[0-9]+$ ]]; then
-		echo "$PROGRAM_NAME: error: invalid level, must be an integer."
-		exit 1
-	fi
-	if [[ $1 -gt 100 ]]; then
+is_brightness_allowed() {
+      case $1 in
+         ''|*[!0-9]*)
+		   echo "$PROGRAM_NAME: error: invalid level, must be an integer."
+		   exit 1
+      ;;
+      esac
+
+	if [ "$1" -gt 100 ]; then
 		echo "$PROGRAM_NAME: error: invalid level, specify a value between 0 - 100."
 		exit 1
 	fi
 }
 
-function set_brightness() {
+set_brightness() {
+   if command -v sudo &> /dev/null; then
+         sudo="sudo"
+   fi
+
 	brightness=$(echo "$(get_max_brightness) * $1/100" | bc)
-	echo $brightness | sudo tee $SET_BRIGHTNESS_PATH > /dev/null
-	echo "🔆 Brightness Level: ${1}%" 
+   echo "$brightness" | $sudo tee $SET_BRIGHTNESS_PATH > /dev/null
+   echo "🔆 Brightness Level: ${1}%" 
 }
 
-parse_cli $1
+parse_cli "$1"
 get_controller
 check_hardware_support
-is_brightness_allowed $1
-set_brightness $1
+is_brightness_allowed "$1"
+set_brightness "$1"
