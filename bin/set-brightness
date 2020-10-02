@@ -49,7 +49,6 @@ is_brightness_allowed() {
 		echo "$PROGRAM_NAME: error: invalid level, must be an integer."
 		exit 1
       ;;
-      *) echo good ;;
       esac
 
 	if [ "$1" -gt 100 ]; then
