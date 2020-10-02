@@ -42,7 +42,7 @@ function get_controller() {
 }
 
 function check_hardware_support() {
-	if [[ ! -e $MAX_BRIGHTNESS_PATH || ! -e $SET_BRIGHTNESS_PATH ]]; then
+	if [[ -z "$SET_BRIGHTNESS_PATH" ]]; then
 		echo "$PROGRAM_NAME: error: hardware not supported."
 		echo
 		echo "Please raise an issue to <> and share output of following command:"
