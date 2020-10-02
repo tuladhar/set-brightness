@@ -5,8 +5,10 @@
 #
 PROGRAM_NAME=set-brightness
 VERSION=1.0
-MAX_BRIGHTNESS_PATH=/sys/class/backlight/intel_backlight/max_brightness
-SET_BRIGHTNESS_PATH=/sys/class/backlight/intel_backlight/brightness
+
+CONTROLLER_PATH="/sys/class/backlight/*"
+SET_BRIGHTNESS_PATH=""
+MAX_BRIGHTNESS_PATH=""
 
 function parse_cli() {
 	if [[ -z $1 || "$1" == "-h" || "$1" == "--help" ]]; then
@@ -29,8 +31,18 @@ function parse_cli() {
 	fi
 } 
 
+function get_controller() {
+    for dir in $CONTROLLER_PATH; do
+        if [[ -e "${dir}/brightness" && -e "${dir}/max_brightness" ]]; then
+            SET_BRIGHTNESS_PATH="${dir}/brightness"
+            MAX_BRIGHTNESS_PATH="${dir}/max_brightness"
+            break
+        fi
+    done
+}
+
 function check_hardware_support() {
-	if [[ ! -f $MAX_BRIGHTNESS_PATH || ! -f $SET_BRIGHTNESS_PATH ]]; then
+	if [[ ! -e $MAX_BRIGHTNESS_PATH || ! -e $SET_BRIGHTNESS_PATH ]]; then
 		echo "$PROGRAM_NAME: error: hardware not supported."
 		echo
 		echo "Please raise an issue to <> and share output of following command:"
@@ -61,6 +73,7 @@ function set_brightness() {
 }
 
 parse_cli $1
+get_controller
 check_hardware_support
 is_brightness_allowed $1
 set_brightness $1
