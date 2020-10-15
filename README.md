@@ -24,3 +24,6 @@ EXAMPLES:
 ## READ BLOG POST
 
 - [Adjust the display brightness from command-line for Linux](https://dev.to/ptuladhar3/adjust-the-display-brightness-from-command-line-for-linux-3k86)
+
+## Contributors
+- See [Contributors](Contributors.md)
